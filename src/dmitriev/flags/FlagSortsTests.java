@@ -56,12 +56,15 @@ public class FlagSortsTests {
 		}
 		for (int i = 1; i < input.length; i++) {
 			if (input[i] < mid) {
-				Assert.assertTrue("input[" + i + "]<mid" + " input[" + (i - 1) + "] >=mid, mid=" + mid,
+				Assert.assertTrue("input[" + i + "]<mid, input[" + (i - 1) + "] >=mid, mid=" + mid,
 						input[i - 1] < mid);
 			} else if (input[i - 1] == mid) {
-				Assert.assertTrue(input[i] >= mid);
+				Assert.assertTrue(
+						"input[" + (i - 1) + "]=mid, input[" + i + "]<=mid, mid=" + mid,
+						input[i] >= mid);
 			} else if (input[i - 1] > mid) {
-				Assert.assertTrue(input[i] > mid);
+				Assert.assertTrue("input[" + (i - 1) + "]>mid" + " input[" + i + "]<=mid, mid=" + mid,
+						input[i] > mid);
 			}
 		}
 	}
