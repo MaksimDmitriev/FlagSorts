@@ -45,6 +45,9 @@ public class FlagSorts {
 		return redIndex;
 	}
 
+	// [22, 46, 68, 47, 43, 47, 58, 43, 0, 27]
+	// mid=43
+	// [22, 27, 0, 47, 43, 58, 43, 47, 68, 46]
 	public static void dutchFlag(int[] input, int mid) {
 		if (input == null || input.length < 2) {
 			return;
@@ -60,7 +63,7 @@ public class FlagSorts {
 			} else if (input[j] == mid) {
 				j++;
 			} else {
-				swap(input, i, k);
+				swap(input, j, k);
 				k--;
 			}
 		}
@@ -97,7 +100,7 @@ public class FlagSorts {
 	}
 
 	/**
-	 * Elements of the input array must be in [1, 100]. The given pivot can be
+	 * Elements of the input array must be in [1, 10]. The given pivot can be
 	 * any number
 	 * 
 	 * @param input
@@ -109,4 +112,57 @@ public class FlagSorts {
 
 		// TODO
 	}
+
+	public static int[] countingSortReversed(int[] a, int k) {
+		int[] c = new int[k];
+		int[] b = new int[a.length];
+
+		for (int i = 0; i < a.length; i++) {
+			c[a[i]]++;
+		}
+
+		for (int i = c.length - 1; i > 0; i--) {
+			c[i - 1] += c[i];
+		}
+
+		for (int i = 0; i < a.length; i++) {
+			b[--c[a[i]]] = a[i];
+		}
+		return b;
+	}
+
+	public static int[] countingSort(int[] a, int k) {
+		int c[] = new int[k];
+		for (int i = 0; i < a.length; i++)
+			c[a[i]]++;
+		
+		for (int i = 1; i < k; i++)
+			c[i] += c[i - 1];
+		
+		int b[] = new int[a.length];
+		for (int i = a.length - 1; i >= 0; i--)
+			b[--c[a[i]]] = a[i];
+
+		return b;
+	}
+
+	// public static int[] countingSort(int[] input, int k) {
+	// // 0 <= input[i] <= k
+	// int[] result = new int[input.length];
+	// int[] auxiliary = new int[k + 1];
+	//
+	// for (int j = 0; j < input.length; j++) {
+	// auxiliary[input[j]] = auxiliary[input[j]] + 1;
+	// }
+	// System.out.println(Arrays.toString(auxiliary));
+	// int resultIndex = 0;
+	// for (int i = 0; i < auxiliary.length; i++) {
+	// if (auxiliary[i] != 0) {
+	// for (int m = 0; m < auxiliary[i]; m++) {
+	// result[resultIndex++] = i;
+	// }
+	// }
+	// }
+	// return result;
+	// }
 }
