@@ -24,7 +24,7 @@ public class FlagSorts {
 				redIndex = getNewRedIndex(redIndex);
 			} else {
 				if (input[whiteIndex] == red) {
-					swap(input, redIndex, whiteIndex);
+					Utils.swap(input, redIndex, whiteIndex);
 					redIndex = getNewRedIndex(redIndex);
 				}
 				if (whiteIndex % 2 == 0) {
@@ -48,32 +48,9 @@ public class FlagSorts {
 	// [22, 46, 68, 47, 43, 47, 58, 43, 0, 27]
 	// mid=43
 	// [22, 27, 0, 47, 43, 58, 43, 47, 68, 46]
-	public static void dutchFlag(int[] input, int mid) {
-		if (input == null || input.length < 2) {
-			return;
-		}
-		int i = 0; // the end of the red region
-		int j = 0; // the element under consideration
-		int k = input.length - 1; // the start of the blue region
-		while (j <= k) {
-			if (input[j] < mid) {
-				swap(input, i, j);
-				i++;
-				j++;
-			} else if (input[j] == mid) {
-				j++;
-			} else {
-				swap(input, j, k);
-				k--;
-			}
-		}
-	}
 
-	private static void swap(int[] input, int index1, int index2) {
-		int temp = input[index1];
-		input[index1] = input[index2];
-		input[index2] = temp;
-	}
+
+
 
 	public static void russianFlagProblem(int[] input, int red, int white, int blue) {
 		// input: 1, 2, 3, 1, 1, 2, 3, 1, 1
@@ -90,9 +67,9 @@ public class FlagSorts {
 
 		while (j <= k) {
 			if (input[j] == white) {
-				swap(input, j++, i++);
+				Utils.swap(input, j++, i++);
 			} else if (input[j] == red) {
-				swap(input, j, k--);
+				Utils.swap(input, j, k--);
 			} else {
 				j++;
 			}
