@@ -1,68 +1,97 @@
 package dmitriev.flags;
 
+import java.util.Arrays;
 import java.util.Random;
 
 import org.junit.Assert;
-import org.junit.Assume;
 import org.junit.Test;
 
 public class DutchFlagTests {
 
-	// @Test
-	// public void dutchOnlyMids() {
-	// int mid = 35;
-	// int[] input = { mid, mid, mid };
-	// verifyDutch(input, mid);
-	// }
-	//
-	// @Test
-	// public void testDutchWithRandom() {
-	// int[] input = new int[10];
-	// Random random = new Random();
-	// for (int i = 0; i < input.length; i++) {
-	// input[i] = random.nextInt(100);
-	// }
-	// int mid = input[random.nextInt(input.length - 1)];
-	// FlagSorts.dutchFlag(input, mid);
-	// verifyDutch(input, mid);
-	// }
-	//
-	// @Test
-	// public void testDutchSmallestMid() {
-	// int[] input = { 12, 34, 781, -1 };
-	// int mid = -1;
-	// FlagSorts.dutchFlag(input, mid);
-	// verifyDutch(input, mid);
-	// }
-	//
-	// @Test
-	// public void testDutchLargestMid() {
-	// int[] input = { 12, 34, 781, -1 };
-	// int mid = 781;
-	// FlagSorts.dutchFlag(input, mid);
-	// verifyDutch(input, mid);
-	// }
-	//
-	// @Test
-	// public void testDutchWithoutMid() {
-	// int[] input = { 12, 34, 781, -1 };
-	// int mid = 90;
-	// FlagSorts.dutchFlag(input, mid);
-	// verifyDutch(input, mid);
-	// }
-	//
-	// private int verifyDutch(int[] input, int mid) {
-	// Assume.assumeFalse(input == null || input.length < 2);
-	//
-	// int index = -1;
-	// for (int i = 1; i < input.length; i++) {
-	// if (input[i] < mid) {
-	// Assert.assertTrue("input[" + (i - 1) + "]>=mid, mid=" + mid, input[i - 1]
-	// < mid);
-	// return index;
-	// } else if (input[i - 1] > mid) {
-	// Assert.assertTrue("input[" + i + "]<=mid, mid=" + mid, input[i] > mid);
-	// }
-	// }
-	// }
+	@Test
+	public void dutchOnlyMids() {
+		int mid = 35;
+		int[] array = { mid, mid, mid };
+		int midCount = getMidCount(array, mid);
+		int i = DutchFlag.dutchFlag(array, mid);
+		verifyDutch(array, mid, i, midCount);
+	}
+
+	@Test
+	public void testDutchWithRandom() {
+		int[] array = new int[10];
+		Random random = new Random();
+		for (int i = 0; i < array.length; i++) {
+			array[i] = random.nextInt(100);
+		}
+		System.out.println("testDutchWithRandom array: " + Arrays.toString(array));
+		int mid = array[random.nextInt(array.length - 1)];
+		int midCount = getMidCount(array, mid);
+		int i = DutchFlag.dutchFlag(array, mid);
+		System.out.println("testDutchWithRandom output: " + Arrays.toString(array));
+		verifyDutch(array, mid, i, midCount);
+
+	}
+
+	@Test
+	public void testDutchSmallestMid2() {
+		int[] array = { 12, 34, 781, -1 };
+		int mid = -1;
+		int midCount = getMidCount(array, mid);
+		int i = DutchFlag.dutchFlag(array, mid);
+		verifyDutch(array, mid, i, midCount);
+	}
+
+	@Test
+	public void testDutchSmallestMid() {
+		int[] array = { 12, 34, 781, -1 };
+		int mid = -1;
+		int midCount = getMidCount(array, mid);
+		int i = DutchFlag.dutchFlag(array, mid);
+		verifyDutch(array, mid, i, midCount);
+	}
+
+	@Test
+	public void testDutchLargestMid() {
+		int[] array = { 12, 34, 781, -1 };
+		int mid = 781;
+		int midCount = getMidCount(array, mid);
+		int i = DutchFlag.dutchFlag(array, mid);
+		verifyDutch(array, mid, i, midCount);
+	}
+
+	@Test
+	public void testDutchWithoutMid() {
+		int[] array = { 12, 34, 781, -1 };
+		int mid = 90;
+		int midCount = getMidCount(array, mid);
+		int i = DutchFlag.dutchFlag(array, mid);
+		verifyDutch(array, mid, i, midCount);
+	}
+
+	private int getMidCount(int[] input, int mid) {
+		if (input == null) {
+			throw new NullPointerException("the array cannot be null");
+		}
+		int midCount = 0;
+		for (int elem : input) {
+			if (elem == mid) {
+				midCount++;
+			}
+		}
+		return midCount;
+	}
+
+	private void verifyDutch(int[] output, int mid, int midStart, int midCount) {
+		for (int i = 0; i < midStart; i++) {
+			Assert.assertTrue(output[i] < mid);
+		}
+		int midEnd = midStart + midCount;
+		for (int i = midStart; i < midEnd; i++) {
+			Assert.assertEquals(mid, output[i]);
+		}
+		for (int i = midEnd + 1; i < output.length; i++) {
+			Assert.assertTrue(output[i] > mid);
+		}
+	}
 }

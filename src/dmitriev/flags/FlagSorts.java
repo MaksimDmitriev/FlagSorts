@@ -6,7 +6,32 @@ public class FlagSorts {
 		throw new AssertionError();
 	}
 
-	public static void myUsFlagSort(int[] input, int stripeLen, int red, int white) {
+	private static void checkMyUsFlagSortInput(int[] input, int red, int white) {
+		if (input.length < 4) {
+			throw new IllegalArgumentException("the min input size is 4");
+		}
+		if (input.length % 2 != 0) {
+			throw new IllegalArgumentException("the input size " + input.length + " is wrong");
+		}
+		int redCount = 0;
+		int whiteCount = 0;
+		for (int elem : input) {
+			if (elem == white) {
+				whiteCount++;
+			} else if (elem == red) {
+				redCount++;
+			} else {
+				throw new IllegalArgumentException("illegal element: " + elem);
+			}
+		}
+		if (redCount != whiteCount) {
+			throw new IllegalArgumentException("the number of red and white elements must be equal. " + "red count="
+					+ redCount + " whiteCount=" + whiteCount);
+		}
+	}
+
+	public static void myUsFlagSort(int[] input, int red, int white) {
+		checkMyUsFlagSortInput(input, red, white);
 		// Input: 1, 2, 1, 1, 1, 2, 2, 2
 		// Output: 1, 1, 2, 2, 1, 1, 2, 2
 
@@ -44,13 +69,6 @@ public class FlagSorts {
 		}
 		return redIndex;
 	}
-
-	// [22, 46, 68, 47, 43, 47, 58, 43, 0, 27]
-	// mid=43
-	// [22, 27, 0, 47, 43, 58, 43, 47, 68, 46]
-
-
-
 
 	public static void russianFlagProblem(int[] input, int red, int white, int blue) {
 		// input: 1, 2, 3, 1, 1, 2, 3, 1, 1
@@ -112,10 +130,10 @@ public class FlagSorts {
 		int c[] = new int[k];
 		for (int i = 0; i < a.length; i++)
 			c[a[i]]++;
-		
+
 		for (int i = 1; i < k; i++)
 			c[i] += c[i - 1];
-		
+
 		int b[] = new int[a.length];
 		for (int i = a.length - 1; i >= 0; i--)
 			b[--c[a[i]]] = a[i];
@@ -123,23 +141,23 @@ public class FlagSorts {
 		return b;
 	}
 
-	// public static int[] countingSort(int[] input, int k) {
-	// // 0 <= input[i] <= k
-	// int[] result = new int[input.length];
-	// int[] auxiliary = new int[k + 1];
-	//
-	// for (int j = 0; j < input.length; j++) {
-	// auxiliary[input[j]] = auxiliary[input[j]] + 1;
-	// }
-	// System.out.println(Arrays.toString(auxiliary));
-	// int resultIndex = 0;
-	// for (int i = 0; i < auxiliary.length; i++) {
-	// if (auxiliary[i] != 0) {
-	// for (int m = 0; m < auxiliary[i]; m++) {
-	// result[resultIndex++] = i;
-	// }
-	// }
-	// }
-	// return result;
-	// }
+	public static int[] countingSort2(int[] input, int k) {
+		// 0 <= input[i] < k
+		int[] result = new int[input.length];
+		int[] auxiliary = new int[k];
+
+		for (int j = 0; j < input.length; j++) {
+			auxiliary[input[j]] = auxiliary[input[j]] + 1;
+		}
+		
+		int resultIndex = 0;
+		for (int i = 0; i < auxiliary.length; i++) {
+			if (auxiliary[i] != 0) {
+				for (int m = 0; m < auxiliary[i]; m++) {
+					result[resultIndex++] = i;
+				}
+			}
+		}
+		return result;
+	}
 }

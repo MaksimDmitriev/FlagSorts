@@ -8,25 +8,26 @@ public class DutchFlag {
 		throw new AssertionError();
 	}
 
-	public static void dutchFlag(int[] input, int mid) {
-		if (input == null || input.length < 2) {
-			return;
+	public static int dutchFlag(int[] array, int mid) {
+		if (array == null || array.length < 2) {
+			return -1;
 		}
 		int i = 0; // the end of the red region (exclusive)
 		int j = 0; // the element under consideration
-		int k = input.length - 1; // the start of the blue region (exclusive)
+		int k = array.length - 1; // the start of the blue region (exclusive)
 		while (j <= k) {
-			if (input[j] < mid) {
-				Utils.swap(input, i, j);
+			if (array[j] < mid) {
+				Utils.swap(array, i, j);
 				i++;
 				j++;
-			} else if (input[j] == mid) {
+			} else if (array[j] == mid) {
 				j++;
 			} else {
-				Utils.swap(input, j, k);
+				Utils.swap(array, j, k);
 				k--;
 			}
 		}
+		return i;
 	}
 
 	public static int verifyDutch(int[] input, int mid) {
